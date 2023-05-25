@@ -5,9 +5,6 @@ on:
     paths:
       - "web/**"
 
-env:
-  NODE_VERSION: 18.16
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -18,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version-file: "../.node-version"
+          node-version-file: ".node-version"
           cache: "yarn"
       - run: yarn
       - run: yarn lint
