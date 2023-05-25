@@ -1,0 +1,2 @@
+web/%:
+	$(MAKE) -C web $*
