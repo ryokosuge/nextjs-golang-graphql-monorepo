@@ -10,7 +10,7 @@ const nextConfig = {
   output: "standalone",
   headers: () => [
     ...publicImages.map((image) => ({
-      source: image,
+      source: `/${image}`,
       headers: [publicCacheHeader],
     })),
   ],
