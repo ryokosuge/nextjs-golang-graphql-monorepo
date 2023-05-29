@@ -58,6 +58,18 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     console.log(credential);
     console.log(result.user);
     setUser(result.user);
+
+    const idToken = await result.user.getIdToken();
+    const res = await fetch("/api/session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idToken,
+      }),
+    });
+    console.log(res);
   }, [auth]);
 
   return (
