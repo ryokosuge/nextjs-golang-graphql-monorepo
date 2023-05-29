@@ -1,7 +1,17 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+
+import Image from "next/image";
+import styles from "./page.module.css";
+import { useEffect } from "react";
+import { useAuth } from "@/context/auth";
 
 export default function Home() {
+  const { user, login } = useAuth();
+  useEffect(() => {
+    if (user == null) {
+      login();
+    }
+  }, [login, user]);
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -15,7 +25,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{' '}
+            By{" "}
             <Image
               src="/vercel.svg"
               alt="Vercel Logo"
@@ -91,5 +101,5 @@ export default function Home() {
         </a>
       </div>
     </main>
-  )
+  );
 }
