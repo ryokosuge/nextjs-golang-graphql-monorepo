@@ -53,12 +53,6 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const login = useCallback(async () => {
     await auth.setPersistence(inMemoryPersistence);
     const result = await signInWithPopup(auth, new GoogleAuthProvider());
-    console.log(result);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    console.log(credential);
-    console.log(result.user);
-    setUser(result.user);
-
     const idToken = await result.user.getIdToken();
     const res = await fetch("/api/session", {
       method: "POST",
@@ -70,6 +64,7 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
       }),
     });
     console.log(res);
+    setUser(result.user);
   }, [auth]);
 
   return (
