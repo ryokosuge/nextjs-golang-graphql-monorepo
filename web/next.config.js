@@ -14,6 +14,9 @@ const nextConfig = {
       headers: [publicCacheHeader],
     })),
   ],
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;

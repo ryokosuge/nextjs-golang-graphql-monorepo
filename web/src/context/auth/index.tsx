@@ -16,59 +16,51 @@ import {
   inMemoryPersistence,
 } from "firebase/auth";
 import { app } from "@/firebase/client";
+import { deleteSessionCookie, storeSessionCookie } from "@/actions/session";
 
 const AuthContext = createContext<{
   user: User | null;
   login: () => Promise<void>;
-}>({ user: null, login: async () => {} });
+  logout: () => Promise<void>;
+}>({ user: null, login: async () => {}, logout: async () => {} });
 
 export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const auth = getAuth(app);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      console.log(`onAuthStateChanged => ${JSON.stringify(user, null, 4)}`);
-      if (user == null) {
-        setUser(null);
-      } else {
-        setUser(user);
-      }
-    });
-    return unsubscribe;
-  }, [auth]);
-
-  useEffect(() => {
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
-      console.log(`onIdTokenChange => ${JSON.stringify(user, null, 4)}`);
       if (user == null) {
         setUser(null);
-      } else {
-        setUser(user);
+        return;
       }
+
+      (async function (user: User) {
+        const idToken = await user.getIdToken();
+        await storeSessionCookie(idToken);
+        setUser(user);
+      })(user);
     });
     return unsubscribe;
   }, [auth]);
 
   const login = useCallback(async () => {
+    console.log("login");
     await auth.setPersistence(inMemoryPersistence);
     const result = await signInWithPopup(auth, new GoogleAuthProvider());
     const idToken = await result.user.getIdToken();
-    const res = await fetch("/api/session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        idToken,
-      }),
-    });
-    console.log(res);
+    await storeSessionCookie(idToken);
     setUser(result.user);
+    console.log("login success");
+  }, [auth]);
+
+  const logout = useCallback(async () => {
+    await auth.signOut();
+    await deleteSessionCookie();
   }, [auth]);
 
   return (
-    <AuthContext.Provider value={{ user, login }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
