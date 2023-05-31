@@ -11,7 +11,12 @@ const Page: FC<Props> = () => {
   const router = useRouter();
 
   const handleButtonClick = useCallback(async () => {
-    await login();
+    try {
+      await login();
+    } catch (error: any) {
+      console.error(error);
+    }
+
     router.refresh();
     router.replace("/");
   }, [login, router]);

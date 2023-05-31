@@ -42,6 +42,11 @@ export async function storeSessionCookie(idToken: string) {
   // 5 days
   const expiresIn = 60 * 60 * 5 * 1000;
   const decodedClaims = await adminSDK.auth().verifyIdToken(idToken);
+  if (new Date().getTime() / 1000 - decodedClaims.auth_time >= 5 * 60) {
+    // expired id token
+    throw new Error("expired id token.");
+  }
+
   const sessionCookie = await adminSDK
     .auth()
     .createSessionCookie(idToken, { expiresIn });

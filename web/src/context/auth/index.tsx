@@ -45,13 +45,11 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   }, [auth]);
 
   const login = useCallback(async () => {
-    console.log("login");
     await auth.setPersistence(inMemoryPersistence);
     const result = await signInWithPopup(auth, new GoogleAuthProvider());
     const idToken = await result.user.getIdToken();
     await storeSessionCookie(idToken);
     setUser(result.user);
-    console.log("login success");
   }, [auth]);
 
   const logout = useCallback(async () => {
