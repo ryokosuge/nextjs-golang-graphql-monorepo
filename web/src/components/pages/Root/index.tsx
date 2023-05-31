@@ -4,7 +4,7 @@ import { FC, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/context/auth";
-import { deleteSessionCookie } from "@/actions/session";
+import { deleteSession } from "@/actions/session";
 
 export type Props = {
   username: string;

@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
-import { deleteSessionCookie, getUser } from "@/actions/session";
+import { deleteSession, getUser } from "@/actions/session";
 
 import { default as RootPage } from "@/components/pages/Root";
 
 const Page = async () => {
   const user = await getUser();
   if (user == null) {
-    await deleteSessionCookie();
+    await deleteSession();
     redirect("/login");
   }
 

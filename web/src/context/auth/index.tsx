@@ -16,7 +16,7 @@ import {
   inMemoryPersistence,
 } from "firebase/auth";
 import { app } from "@/firebase/client";
-import { deleteSessionCookie, storeSessionCookie } from "@/actions/session";
+import { deleteSession, storeSession } from "@/actions/session";
 
 const AuthContext = createContext<{
   user: User | null;
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
 
       (async function (user: User) {
         const idToken = await user.getIdToken();
-        await storeSessionCookie(idToken);
+        await storeSession(idToken);
         setUser(user);
       })(user);
     });
@@ -45,18 +45,16 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   }, [auth]);
 
   const login = useCallback(async () => {
-    console.log("login");
     await auth.setPersistence(inMemoryPersistence);
     const result = await signInWithPopup(auth, new GoogleAuthProvider());
     const idToken = await result.user.getIdToken();
-    await storeSessionCookie(idToken);
+    await storeSession(idToken);
     setUser(result.user);
-    console.log("login success");
   }, [auth]);
 
   const logout = useCallback(async () => {
     await auth.signOut();
-    await deleteSessionCookie();
+    await deleteSession();
   }, [auth]);
 
   return (

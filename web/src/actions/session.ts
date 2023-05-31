@@ -22,7 +22,7 @@ export async function getUser(): Promise<UserRecord | null> {
   }
 }
 
-export async function deleteSessionCookie() {
+export async function deleteSession() {
   const store = cookies();
   const session = store.get("session")?.value;
   if (session == null) {
@@ -30,18 +30,29 @@ export async function deleteSessionCookie() {
   }
 
   try {
-    store.delete("session");
     const decodeClaims = await adminSDK
       .auth()
       .verifySessionCookie(session, true);
     await adminSDK.auth().revokeRefreshTokens(decodeClaims.sub);
-  } catch {}
+  } catch (error: any) {
+    console.error(error);
+  } finally {
+    store.delete("session");
+  }
 }
 
-export async function storeSessionCookie(idToken: string) {
-  // 5 days
-  const expiresIn = 60 * 60 * 5 * 1000;
+// expires id token
+// 5 days
+const expiresIn = 60 * 60 * 5 * 1000;
+
+export async function storeSession(idToken: string) {
   const decodedClaims = await adminSDK.auth().verifyIdToken(idToken);
+  // 5 min
+  if (new Date().getTime() / 1000 - decodedClaims.auth_time >= 5 * 60) {
+    // expired id token
+    throw new Error("expired id token.");
+  }
+
   const sessionCookie = await adminSDK
     .auth()
     .createSessionCookie(idToken, { expiresIn });
@@ -49,6 +60,6 @@ export async function storeSessionCookie(idToken: string) {
   store.set("session", sessionCookie, {
     maxAge: expiresIn,
     httpOnly: true,
-    secure: false,
+    secure: true,
   });
 }
