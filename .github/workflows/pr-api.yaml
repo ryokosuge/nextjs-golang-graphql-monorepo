@@ -1,0 +1,58 @@
+name: PR API
+
+on:
+  pull_request:
+    paths:
+      - "api/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: ./api/go.mod
+          cache-dependency-path: ./api/go.sum
+      - uses: golangci/golangci-lint-action@v3
+        with:
+          working-directory: ./api
+          skip-pkg-cache: true
+          skip-build-cache: true
+          args: --timeout=5m
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: ./api/go.mod
+          cache-dependency-path: ./api/go.sum
+      - name: go test
+        working-directory: ./api
+        run: go test -v ./...
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: ./api/go.mod
+          cache-dependency-path: ./api/go.sum
+      - name: go mod tidy
+        working-directory: ./api
+        run: go mod tidy && git diff --exit-code
+      - name: go mod download
+        working-directory: ./api
+        run: go mod download
+      - name: go mod verify
+        working-directory: ./api
+        run: go mod verify
+      - name: go generate
+        working-directory: ./api
+        run: go generate ./... && git diff --exit-code
+      - name: go build
+        working-directory: ./api
+        run: go build -o /dev/null ./...

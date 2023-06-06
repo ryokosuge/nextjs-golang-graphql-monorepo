@@ -1,5 +1,13 @@
-version: "2.4"
+version: "3"
 services:
+  api:
+    image: golang:1.20
+    working_dir: /go/src/github.com/ryokosuge/api
+    command: ["make", "dev"]
+    volumes:
+      - ./api:/go/src/github.com/ryokosuge/api
+    ports:
+      - 8080:8080
   web:
     image: node:18.16-alpine
     working_dir: /app
@@ -10,6 +18,8 @@ services:
     entrypoint: ["/docker-entrypoint.sh"]
     ports:
       - 3000:3000
+    depends_on:
+      - api
 
 volumes:
   web_node_modules:
