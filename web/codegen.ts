@@ -7,15 +7,16 @@ const config: CodegenConfig = {
       plugins: ["typescript"],
     },
     "src/": {
-      documents: "src/**/*.graphqls",
+      documents: "src/**/*.graphql",
       preset: "near-operation-file-preset",
       presetConfig: {
-        extention: ".generated.ts",
+        extension: ".generated.ts",
         baseTypesPath: "generated/gql/type.ts",
       },
       plugins: ["typescript-operations", "typescript-graphql-request"],
     },
   },
+  hooks: { afterAllFileWrite: ["prettier --write"] },
 };
 
 export default config;
