@@ -6,6 +6,15 @@ const config: CodegenConfig = {
     "src/generated/gql/type.ts": {
       plugins: ["typescript"],
     },
+    "src/": {
+      documents: "src/**/*.graphqls",
+      preset: "near-operation-file-preset",
+      presetConfig: {
+        extention: ".generated.ts",
+        baseTypesPath: "generated/gql/type.ts",
+      },
+      plugins: ["typescript-operations", "typescript-graphql-request"],
+    },
   },
 };
 
