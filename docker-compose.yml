@@ -15,7 +15,10 @@ services:
       - ./web:/app
       - web_node_modules:/app/node_modules
       - ./web/docker-entrypoint.sh:/docker-entrypoint.sh:ro
+      - ./resources/credential.json:/app/credential.json
     entrypoint: ["/docker-entrypoint.sh"]
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credential.json
     ports:
       - 3000:3000
     depends_on:
