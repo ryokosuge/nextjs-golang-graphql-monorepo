@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@chakra-ui/next-js": "2.1.4",
@@ -16,11 +17,19 @@
     "firebase": "9.22.1",
     "firebase-admin": "11.9.0",
     "framer-motion": "10.12.16",
+    "graphql": "16.6.0",
+    "graphql-request": "6.1.0",
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "4.0.1",
+    "@graphql-codegen/client-preset": "4.0.0",
+    "@graphql-codegen/near-operation-file-preset": "2.5.0",
+    "@graphql-codegen/typescript": "4.0.0",
+    "@graphql-codegen/typescript-graphql-request": "5.0.0",
+    "@graphql-codegen/typescript-operations": "4.0.0",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
