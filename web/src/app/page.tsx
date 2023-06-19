@@ -4,6 +4,7 @@ import { deleteSession, getUser } from "@/actions/session";
 import { default as RootPage } from "@/components/pages/Root";
 import { GraphQLClient } from "graphql-request";
 import { getSdk } from "@/graphql/todo.generated";
+import { fetchToDos } from "@/actions/query";
 
 const Page = async () => {
   const user = await getUser();
@@ -11,6 +12,9 @@ const Page = async () => {
     await deleteSession();
     redirect("/login");
   }
+
+  const d = await fetchToDos();
+  console.log(d);
 
   const client = new GraphQLClient("http://api:8080/query");
   const sdk = getSdk(client);
