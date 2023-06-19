@@ -36,9 +36,9 @@ export async function deleteSession() {
     await adminSDK.auth().revokeRefreshTokens(decodeClaims.sub);
   } catch (error: any) {
     console.error(error);
-  } finally {
-    store.delete("session");
   }
+
+  store.delete("session");
 }
 
 // expires id token
