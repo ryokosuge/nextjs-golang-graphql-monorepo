@@ -16,7 +16,7 @@ import {
   inMemoryPersistence,
 } from "firebase/auth";
 import { app } from "@/firebase/client";
-import { deleteSession, storeSession } from "@/actions/session";
+import { revokeSession, storeSession } from "@/actions/session";
 
 const AuthContext = createContext<{
   user: User | null;
@@ -54,7 +54,7 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
 
   const logout = useCallback(async () => {
     await auth.signOut();
-    await deleteSession();
+    await revokeSession();
   }, [auth]);
 
   return (

@@ -22,7 +22,7 @@ export async function getUser(): Promise<UserRecord | null> {
   }
 }
 
-export async function deleteSession() {
+export async function revokeSession() {
   const store = cookies();
   const session = store.get("session")?.value;
   if (session == null) {
@@ -37,8 +37,6 @@ export async function deleteSession() {
   } catch (error: any) {
     console.error(error);
   }
-
-  store.delete("session");
 }
 
 // expires id token
@@ -61,5 +59,6 @@ export async function storeSession(idToken: string) {
     maxAge: expiresIn,
     httpOnly: true,
     secure: true,
+    path: "/",
   });
 }

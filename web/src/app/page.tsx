@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { deleteSession, getUser } from "@/actions/session";
+import { getUser } from "@/actions/session";
 
 import { default as RootPage } from "@/components/pages/Root";
 import { GraphQLClient } from "graphql-request";
@@ -9,7 +9,6 @@ import { fetchToDos } from "@/actions/query";
 const Page = async () => {
   const user = await getUser();
   if (user == null) {
-    await deleteSession();
     redirect("/login");
   }
 
