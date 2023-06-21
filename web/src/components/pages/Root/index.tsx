@@ -4,14 +4,14 @@ import { FC, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/context/auth";
-import { deleteSession } from "@/actions/session";
 
 export type Props = {
+  id: string;
   username: string;
   email: string;
 };
 
-const Page: FC<Props> = ({ username, email }) => {
+const Page: FC<Props> = ({ id, username, email }) => {
   const { logout } = useAuth();
   const router = useRouter();
   const handleButtonClick = useCallback(async () => {
@@ -22,6 +22,8 @@ const Page: FC<Props> = ({ username, email }) => {
   return (
     <main>
       <dl>
+        <dt>ID</dt>
+        <dd>{id}</dd>
         <dt>Name</dt>
         <dd>{username}</dd>
         <dt>Email</dt>

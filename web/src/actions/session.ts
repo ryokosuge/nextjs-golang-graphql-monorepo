@@ -39,6 +39,13 @@ export async function revokeSession() {
   }
 }
 
+export async function deleteSession() {
+  const store = cookies();
+  store.set("session", "", {
+    maxAge: 0,
+  });
+}
+
 // expires id token
 // 5 days
 const expiresIn = 60 * 60 * 5 * 1000;

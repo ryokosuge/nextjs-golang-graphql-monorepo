@@ -1,4 +1,4 @@
-import * as Types from "../generated/gql/type";
+import * as Types from "../../../generated/gql/type";
 
 import { GraphQLClient } from "graphql-request";
 import { GraphQLClientRequestHeaders } from "graphql-request/build/cjs/types";

@@ -38,8 +38,6 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 			return
 		}
 
-		log.Println(sessionToken)
-
 		ctx := r.Context()
 		token, err := m.auth.VerifySessionCookie(ctx, sessionToken)
 		if err != nil {
@@ -49,7 +47,6 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 			return
 		}
 
-		log.Println(token)
 		user, err := m.auth.GetUser(ctx, token.Subject)
 		if err != nil {
 			log.Fatalln(err)
@@ -57,10 +54,6 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 			w.Write([]byte("Unauthorized"))
 			return
 		}
-
-		log.Printf("%+v\n", user)
-		log.Printf("%+v\n", user.DisplayName)
-		log.Printf("%+v\n", user.Email)
 		ctx = context.WithValue(ctx, userCtxKey, user)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)

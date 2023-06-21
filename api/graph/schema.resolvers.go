@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph/middleware"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph/model"
 )
 
@@ -37,6 +38,19 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 				Name: "てすと2",
 			},
 		},
+	}, nil
+}
+
+// Me is the resolver for the me field.
+func (r *queryResolver) Me(ctx context.Context) (*model.User, error) {
+	user := middleware.GetUser(ctx)
+	if user == nil {
+		return nil, fmt.Errorf("not found user")
+	}
+	return &model.User{
+		ID:    user.UID,
+		Name:  user.DisplayName,
+		Email: user.Email,
 	}, nil
 }
 

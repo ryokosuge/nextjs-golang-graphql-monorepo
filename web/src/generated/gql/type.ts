@@ -43,6 +43,7 @@ export type NewTodo = {
 
 export type Query = {
   __typename?: "Query";
+  me: User;
   todos: Array<Todo>;
 };
 
@@ -56,6 +57,7 @@ export type Todo = {
 
 export type User = {
   __typename?: "User";
+  email: Scalars["String"]["output"];
   id: Scalars["ID"]["output"];
   name: Scalars["String"]["output"];
 };

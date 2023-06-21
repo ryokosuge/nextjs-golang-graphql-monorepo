@@ -19,7 +19,6 @@ import (
 const defaultPort = "8080"
 
 func main() {
-
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGINT)
 	defer stop()
 
@@ -43,7 +42,6 @@ func main() {
 	firebaseAuth := middleware.NewAuthMiddleware(auth)
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
-
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", firebaseAuth.CheckAuthorization(srv))
 
