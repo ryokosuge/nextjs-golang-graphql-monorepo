@@ -6,6 +6,9 @@ services:
     command: ["make", "dev"]
     volumes:
       - ./api:/go/src/github.com/ryokosuge/api
+      - ./resources/credential.json:/app/credential.json
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credential.json
     ports:
       - 8080:8080
   web:
