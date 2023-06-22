@@ -34,7 +34,10 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 		if err != nil {
 			log.Fatalln(err)
 			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte("Unauthorized"))
+			_, err := w.Write([]byte("Unauthorized"))
+			if err != nil {
+				log.Fatalln(err)
+			}
 			return
 		}
 
@@ -43,7 +46,10 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 		if err != nil {
 			log.Fatalln(err)
 			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte("Unauthorized"))
+			_, err := w.Write([]byte("Unauthorized"))
+			if err != nil {
+				log.Fatalln(err)
+			}
 			return
 		}
 
@@ -51,7 +57,10 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 		if err != nil {
 			log.Fatalln(err)
 			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte("Unauthorized"))
+			_, err := w.Write([]byte("Unauthorized"))
+			if err != nil {
+				log.Fatalln(err)
+			}
 			return
 		}
 		ctx = context.WithValue(ctx, userCtxKey, user)
