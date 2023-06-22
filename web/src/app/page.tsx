@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { getUser } from "@/actions/session";
 
 import { default as RootPage } from "@/components/pages/Root";
 import { fetchToDos } from "@/actions/graphql/todo";
