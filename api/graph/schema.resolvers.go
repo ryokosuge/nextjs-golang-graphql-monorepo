@@ -8,8 +8,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph/middleware"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph/model"
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/middleware"
 )
 
 // CreateTodo is the resolver for the createTodo field.

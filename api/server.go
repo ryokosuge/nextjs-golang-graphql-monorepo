@@ -13,7 +13,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph"
-	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph/middleware"
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/middleware"
 )
 
 const defaultPort = "8080"
