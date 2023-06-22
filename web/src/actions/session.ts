@@ -4,22 +4,14 @@ import { adminSDK } from "@/firebase/server";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { cookies } from "next/headers";
 
-export async function getUser(): Promise<UserRecord | null> {
+export async function getCookieSession() {
   const store = cookies();
   const session = store.get("session")?.value;
   if (session == null) {
     return null;
   }
 
-  try {
-    const decodedClaims = await adminSDK
-      .auth()
-      .verifySessionCookie(session, true);
-    return adminSDK.auth().getUser(decodedClaims.sub);
-  } catch (error: any) {
-    console.error(error);
-    return null;
-  }
+  return session;
 }
 
 export async function revokeSession() {
