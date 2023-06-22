@@ -1,0 +1,7 @@
+query Query {
+  me {
+    id
+    name
+    email
+  }
+}

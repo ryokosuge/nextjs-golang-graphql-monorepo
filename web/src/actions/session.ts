@@ -4,25 +4,17 @@ import { adminSDK } from "@/firebase/server";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { cookies } from "next/headers";
 
-export async function getUser(): Promise<UserRecord | null> {
+export async function getCookieSession() {
   const store = cookies();
   const session = store.get("session")?.value;
   if (session == null) {
     return null;
   }
 
-  try {
-    const decodedClaims = await adminSDK
-      .auth()
-      .verifySessionCookie(session, true);
-    return adminSDK.auth().getUser(decodedClaims.sub);
-  } catch (error: any) {
-    console.error(error);
-    return null;
-  }
+  return session;
 }
 
-export async function deleteSession() {
+export async function revokeSession() {
   const store = cookies();
   const session = store.get("session")?.value;
   if (session == null) {
@@ -37,8 +29,13 @@ export async function deleteSession() {
   } catch (error: any) {
     console.error(error);
   }
+}
 
-  store.delete("session");
+export async function deleteSession() {
+  const store = cookies();
+  store.set("session", "", {
+    maxAge: 0,
+  });
 }
 
 // expires id token
@@ -61,5 +58,6 @@ export async function storeSession(idToken: string) {
     maxAge: expiresIn,
     httpOnly: true,
     secure: true,
+    path: "/",
   });
 }

@@ -12,10 +12,12 @@ type Todo {
 type User {
   id: ID!
   name: String!
+  email: String!
 }
 
 type Query {
   todos: [Todo!]!
+  me: User!
 }
 
 input NewTodo {

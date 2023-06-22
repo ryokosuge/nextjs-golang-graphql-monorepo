@@ -1,4 +1,4 @@
-import * as Types from "../generated/gql/type";
+import * as Types from "../../../graphql/type";
 
 import { GraphQLClient } from "graphql-request";
 import { GraphQLClientRequestHeaders } from "graphql-request/build/cjs/types";
@@ -7,13 +7,15 @@ export type QueryQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type QueryQuery = {
   __typename?: "Query";
-  todos: Array<{ __typename?: "Todo"; id: string }>;
+  me: { __typename?: "User"; id: string; name: string; email: string };
 };
 
 export const QueryDocument = gql`
   query Query {
-    todos {
+    me {
       id
+      name
+      email
     }
   }
 `;
