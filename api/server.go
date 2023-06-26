@@ -12,7 +12,8 @@ import (
 	firebase "firebase.google.com/go"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph"
+	generated "github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen"
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen/resolver"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/middleware"
 )
 
@@ -41,7 +42,7 @@ func main() {
 
 	firebaseAuth := middleware.NewAuthMiddleware(auth)
 
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{}}))
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", firebaseAuth.CheckAuthorization(srv))
 
