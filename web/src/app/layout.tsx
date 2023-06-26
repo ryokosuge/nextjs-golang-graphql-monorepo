@@ -15,7 +15,7 @@ const Layout = ({ children }: Props) => {
     <html lang="en">
       <body>
         <ChakraUIProviders>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>{children} </AuthProvider>
         </ChakraUIProviders>
       </body>
     </html>
