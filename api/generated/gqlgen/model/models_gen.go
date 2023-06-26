@@ -2,6 +2,11 @@
 
 package model
 
+type Node interface {
+	IsNode()
+	GetID() string
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`
@@ -14,8 +19,14 @@ type Todo struct {
 	User *User  `json:"user"`
 }
 
+func (Todo) IsNode()            {}
+func (this Todo) GetID() string { return this.ID }
+
 type User struct {
 	ID    string `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
+
+func (User) IsNode()            {}
+func (this User) GetID() string { return this.ID }

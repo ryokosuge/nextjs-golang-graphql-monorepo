@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -12,7 +13,8 @@ import (
 	firebase "firebase.google.com/go"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/graph"
+	generated "github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen"
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen/resolver"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/middleware"
 )
 
@@ -41,19 +43,27 @@ func main() {
 
 	firebaseAuth := middleware.NewAuthMiddleware(auth)
 
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{}}))
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", firebaseAuth.CheckAuthorization(srv))
+	http.Handle("/ok", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusNoContent) }))
+
+	hsrv := &http.Server{
+		Addr: fmt.Sprintf(":%s", port),
+	}
 
 	go func() {
 		<-ctx.Done()
 
-		_, cancel := context.WithTimeout(context.Background(), time.Second*15)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 		defer cancel()
+		if err := hsrv.Shutdown(ctx); err != nil {
+			log.Fatalln(err)
+		}
 	}()
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	if err := hsrv.ListenAndServe(); err != nil {
 		log.Fatal("server encountered some error", err)
 	}
 }

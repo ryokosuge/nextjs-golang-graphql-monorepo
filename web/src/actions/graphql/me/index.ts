@@ -5,7 +5,7 @@ import { getCookieSession } from "@/actions/session";
 import { graphQLClient } from "@/graphql/client";
 
 export const me = async () => {
-  const session = getCookieSession();
+  const session = await getCookieSession();
   if (session == null) {
     throw new Error("not authorization.");
   }
@@ -14,7 +14,7 @@ export const me = async () => {
 
   try {
     const sdk = getSdk(graphQLClient);
-    const result = await sdk.Query();
+    const result = await sdk.GetMe();
     return result.me;
   } catch (error) {
     console.error(error);

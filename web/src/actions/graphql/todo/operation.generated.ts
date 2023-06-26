@@ -3,15 +3,15 @@ import * as Types from "../../../graphql/type";
 import { GraphQLClient } from "graphql-request";
 import { GraphQLClientRequestHeaders } from "graphql-request/build/cjs/types";
 import gql from "graphql-tag";
-export type QueryQueryVariables = Types.Exact<{ [key: string]: never }>;
+export type FetchTodoQueryVariables = Types.Exact<{ [key: string]: never }>;
 
-export type QueryQuery = {
+export type FetchTodoQuery = {
   __typename?: "Query";
   todos: Array<{ __typename?: "Todo"; id: string }>;
 };
 
-export const QueryDocument = gql`
-  query Query {
+export const FetchTodoDocument = gql`
+  query FetchTodo {
     todos {
       id
     }
@@ -35,17 +35,17 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
-    Query(
-      variables?: QueryQueryVariables,
+    FetchTodo(
+      variables?: FetchTodoQueryVariables,
       requestHeaders?: GraphQLClientRequestHeaders,
-    ): Promise<QueryQuery> {
+    ): Promise<FetchTodoQuery> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<QueryQuery>(QueryDocument, variables, {
+          client.request<FetchTodoQuery>(FetchTodoDocument, variables, {
             ...requestHeaders,
             ...wrappedRequestHeaders,
           }),
-        "Query",
+        "FetchTodo",
         "query",
       );
     },
