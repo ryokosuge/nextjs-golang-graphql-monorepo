@@ -1,12 +1,12 @@
 "use server";
 
 import { adminSDK } from "@/firebase/server";
-import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { cookies } from "next/headers";
+import { EXPIRED_IN, SESSION_KEY_NAME } from "./constants";
 
 export async function getCookieSession() {
   const store = cookies();
-  const session = store.get("session")?.value;
+  const session = store.get(SESSION_KEY_NAME)?.value;
   if (session == null) {
     return null;
   }
@@ -16,7 +16,7 @@ export async function getCookieSession() {
 
 export async function revokeSession() {
   const store = cookies();
-  const session = store.get("session")?.value;
+  const session = store.get(SESSION_KEY_NAME)?.value;
   if (session == null) {
     return;
   }
@@ -33,14 +33,10 @@ export async function revokeSession() {
 
 export async function deleteSession() {
   const store = cookies();
-  store.set("session", "", {
+  store.set(SESSION_KEY_NAME, "", {
     maxAge: 0,
   });
 }
-
-// expires id token
-// 5 days
-const expiresIn = 60 * 60 * 5 * 1000;
 
 export async function storeSession(idToken: string) {
   const decodedClaims = await adminSDK.auth().verifyIdToken(idToken);
@@ -52,10 +48,10 @@ export async function storeSession(idToken: string) {
 
   const sessionCookie = await adminSDK
     .auth()
-    .createSessionCookie(idToken, { expiresIn });
+    .createSessionCookie(idToken, { expiresIn: EXPIRED_IN });
   const store = cookies();
-  store.set("session", sessionCookie, {
-    maxAge: expiresIn,
+  store.set(SESSION_KEY_NAME, sessionCookie, {
+    maxAge: EXPIRED_IN,
     httpOnly: true,
     secure: true,
     path: "/",
