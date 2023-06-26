@@ -63,6 +63,7 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 			}
 			return
 		}
+
 		ctx = context.WithValue(ctx, userCtxKey, user)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
