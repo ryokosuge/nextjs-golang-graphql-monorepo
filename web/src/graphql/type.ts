@@ -30,10 +30,15 @@ export type Scalars = {
 export type Mutation = {
   __typename?: "Mutation";
   createTodo: Todo;
+  noop?: Maybe<Scalars["ID"]["output"]>;
 };
 
 export type MutationCreateTodoArgs = {
   input: NewTodo;
+};
+
+export type MutationNoopArgs = {
+  input?: InputMaybe<Scalars["ID"]["input"]>;
 };
 
 export type NewTodo = {
@@ -41,13 +46,22 @@ export type NewTodo = {
   userId: Scalars["String"]["input"];
 };
 
+export type Node = {
+  id: Scalars["ID"]["output"];
+};
+
 export type Query = {
   __typename?: "Query";
   me: User;
+  node: Node;
   todos: Array<Todo>;
 };
 
-export type Todo = {
+export type QueryNodeArgs = {
+  id: Scalars["ID"]["input"];
+};
+
+export type Todo = Node & {
   __typename?: "Todo";
   done: Scalars["Boolean"]["output"];
   id: Scalars["ID"]["output"];
@@ -55,7 +69,7 @@ export type Todo = {
   user: User;
 };
 
-export type User = {
+export type User = Node & {
   __typename?: "User";
   email: Scalars["String"]["output"];
   id: Scalars["ID"]["output"];

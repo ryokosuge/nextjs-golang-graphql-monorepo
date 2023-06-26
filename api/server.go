@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -46,15 +47,22 @@ func main() {
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", firebaseAuth.CheckAuthorization(srv))
 
+	hsrv := &http.Server{
+		Addr: fmt.Sprintf(":%s", port),
+	}
+
 	go func() {
 		<-ctx.Done()
 
-		_, cancel := context.WithTimeout(context.Background(), time.Second*15)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 		defer cancel()
+		if err := hsrv.Shutdown(ctx); err != nil {
+			log.Fatalln(err)
+		}
 	}()
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
+	if err := hsrv.ListenAndServe(); err != nil {
 		log.Fatal("server encountered some error", err)
 	}
 }

@@ -3,15 +3,15 @@ import * as Types from "../../../graphql/type";
 import { GraphQLClient } from "graphql-request";
 import { GraphQLClientRequestHeaders } from "graphql-request/build/cjs/types";
 import gql from "graphql-tag";
-export type QueryQueryVariables = Types.Exact<{ [key: string]: never }>;
+export type GetMeQueryVariables = Types.Exact<{ [key: string]: never }>;
 
-export type QueryQuery = {
+export type GetMeQuery = {
   __typename?: "Query";
   me: { __typename?: "User"; id: string; name: string; email: string };
 };
 
-export const QueryDocument = gql`
-  query Query {
+export const GetMeDocument = gql`
+  query GetMe {
     me {
       id
       name
@@ -37,17 +37,17 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
-    Query(
-      variables?: QueryQueryVariables,
+    GetMe(
+      variables?: GetMeQueryVariables,
       requestHeaders?: GraphQLClientRequestHeaders,
-    ): Promise<QueryQuery> {
+    ): Promise<GetMeQuery> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<QueryQuery>(QueryDocument, variables, {
+          client.request<GetMeQuery>(GetMeDocument, variables, {
             ...requestHeaders,
             ...wrappedRequestHeaders,
           }),
-        "Query",
+        "GetMe",
         "query",
       );
     },

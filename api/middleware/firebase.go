@@ -32,34 +32,34 @@ func (m *middleware) CheckAuthorization(next http.Handler) http.Handler {
 		sessionToken, err := parseBearerToken(authorization)
 
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 			w.WriteHeader(http.StatusUnauthorized)
 			_, err := w.Write([]byte("Unauthorized"))
 			if err != nil {
-				log.Fatalln(err)
+				log.Println(err)
 			}
 			return
 		}
 
 		ctx := r.Context()
-		token, err := m.auth.VerifySessionCookie(ctx, sessionToken)
+		token, err := m.auth.VerifySessionCookieAndCheckRevoked(ctx, sessionToken)
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 			w.WriteHeader(http.StatusUnauthorized)
 			_, err := w.Write([]byte("Unauthorized"))
 			if err != nil {
-				log.Fatalln(err)
+				log.Println(err)
 			}
 			return
 		}
 
 		user, err := m.auth.GetUser(ctx, token.Subject)
 		if err != nil {
-			log.Fatalln(err)
+			log.Println(err)
 			w.WriteHeader(http.StatusUnauthorized)
 			_, err := w.Write([]byte("Unauthorized"))
 			if err != nil {
-				log.Fatalln(err)
+				log.Println(err)
 			}
 			return
 		}
