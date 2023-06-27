@@ -1,5 +1,4 @@
-import { ChakraUIProviders } from "@/containers/chakra-ui";
-import { AuthProvider } from "@/context/auth";
+import AppContainer from "@/containers/AppContainer";
 
 export const metadata = {
   title: "Create Next App",
@@ -14,9 +13,7 @@ const Layout = ({ children }: Props) => {
   return (
     <html lang="en">
       <body>
-        <ChakraUIProviders>
-          <AuthProvider>{children} </AuthProvider>
-        </ChakraUIProviders>
+        <AppContainer>{children}</AppContainer>
       </body>
     </html>
   );

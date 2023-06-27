@@ -29,8 +29,9 @@ const Page: FC<Props> = () => {
       borderRadius={8}
       boxShadow="lg"
       backgroundColor="whiteAlpha.800"
+      gap={6}
     >
-      <Heading mb={6}>Log In</Heading>
+      <Heading>Log In</Heading>
       <Button colorScheme="pink" onClick={handleButtonClick}>
         Google Login
       </Button>
