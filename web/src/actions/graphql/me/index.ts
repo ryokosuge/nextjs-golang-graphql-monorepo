@@ -12,12 +12,7 @@ export const me = async () => {
 
   graphQLClient.setHeader("Authorization", `Bearer ${session}`);
 
-  try {
-    const sdk = getSdk(graphQLClient);
-    const result = await sdk.GetMe();
-    return result.me;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  const sdk = getSdk(graphQLClient);
+  const result = await sdk.GetMe();
+  return result.me;
 };

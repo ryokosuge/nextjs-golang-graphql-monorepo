@@ -1,5 +1,7 @@
+import { LoadingView } from "@/components/molecules/LoadingView";
+
 const Loading = () => {
-  return <h1>ローディング</h1>;
+  return <LoadingView />;
 };
 
 export default Loading;
