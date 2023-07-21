@@ -18,7 +18,7 @@ services:
       timeout: 3s
       retries: 3
   web:
-    image: node:20.3-alpine
+    image: node:20.5-alpine
     working_dir: /app
     volumes:
       - ./web:/app
