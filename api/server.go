@@ -13,9 +13,12 @@ import (
 	firebase "firebase.google.com/go"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/ent"
 	generated "github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen/resolver"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/middleware"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 const defaultPort = "8080"
@@ -42,6 +45,19 @@ func main() {
 	}
 
 	firebaseAuth := middleware.NewAuthMiddleware(auth)
+
+	url := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", os.Getenv("MYSQL_USER"), os.Getenv("MYSQL_PASSWORD"), os.Getenv("MYSQL_HOST"), os.Getenv("MYSQL_PORT"), os.Getenv("MYSQL_DATABASE_NAME"))
+	client, err := ent.Open("mysql", url)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	defer client.Close()
+
+	if err := client.Schema.Create(context.Background()); err != nil {
+		log.Fatalf("failed creating schema resources: %v", err)
+		return
+	}
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{}}))
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
