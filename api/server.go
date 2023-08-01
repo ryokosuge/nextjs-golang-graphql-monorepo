@@ -10,15 +10,14 @@ import (
 	"syscall"
 	"time"
 
+	"entgo.io/contrib/entgql"
 	firebase "firebase.google.com/go"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/ent"
-	generated "github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen/resolver"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/middleware"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 const defaultPort = "8080"
@@ -59,7 +58,9 @@ func main() {
 		return
 	}
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{}}))
+	srv := handler.NewDefaultServer(resolver.NewSchema(client))
+	srv.Use(entgql.Transactioner{TxOpener: client})
+
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", firebaseAuth.CheckAuthorization(srv))
 	http.Handle("/ok", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusNoContent) }))

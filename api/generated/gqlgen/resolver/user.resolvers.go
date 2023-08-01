@@ -8,10 +8,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen/model"
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/ent"
 )
 
 // Me is the resolver for the me field.
-func (r *queryResolver) Me(ctx context.Context) (*model.User, error) {
+func (r *queryResolver) Me(ctx context.Context) (*ent.User, error) {
 	panic(fmt.Errorf("not implemented: Me - me"))
 }

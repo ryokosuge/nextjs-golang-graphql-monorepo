@@ -17,10 +17,10 @@ require (
 	cloud.google.com/go v0.110.2 // indirect
 	cloud.google.com/go/compute v1.19.3 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
-	cloud.google.com/go/firestore v1.10.0 // indirect
-	cloud.google.com/go/iam v0.13.0 // indirect
-	cloud.google.com/go/longrunning v0.4.2 // indirect
-	cloud.google.com/go/storage v1.30.1 // indirect
+	cloud.google.com/go/firestore v1.11.0 // indirect
+	cloud.google.com/go/iam v1.1.0 // indirect
+	cloud.google.com/go/longrunning v0.5.0 // indirect
+	cloud.google.com/go/storage v1.31.0 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
@@ -30,7 +30,7 @@ require (
 	github.com/google/s2a-go v0.1.4 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.4 // indirect
-	github.com/googleapis/gax-go/v2 v2.10.0 // indirect
+	github.com/googleapis/gax-go/v2 v2.11.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.3 // indirect

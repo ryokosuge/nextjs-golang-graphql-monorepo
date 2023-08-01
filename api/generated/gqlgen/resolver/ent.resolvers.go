@@ -8,28 +8,28 @@ import (
 	"context"
 	"fmt"
 
+	"entgo.io/contrib/entgql"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/ent"
 	generated "github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen"
-	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen/model"
 )
 
 // Node is the resolver for the node field.
-func (r *queryResolver) Node(ctx context.Context, id string) (ent.Noder, error) {
+func (r *queryResolver) Node(ctx context.Context, id int) (ent.Noder, error) {
 	panic(fmt.Errorf("not implemented: Node - node"))
 }
 
 // Nodes is the resolver for the nodes field.
-func (r *queryResolver) Nodes(ctx context.Context, ids []string) ([]ent.Noder, error) {
+func (r *queryResolver) Nodes(ctx context.Context, ids []int) ([]ent.Noder, error) {
 	panic(fmt.Errorf("not implemented: Nodes - nodes"))
 }
 
 // Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context, after *string, first *int, before *string, last *int) (*model.TodoConnection, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+func (r *queryResolver) Todos(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int) (*ent.TodoConnection, error) {
+	return r.client.Todo.Query().Paginate(ctx, after, first, before, last)
 }
 
 // Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context, after *string, first *int, before *string, last *int) (*model.UserConnection, error) {
+func (r *queryResolver) Users(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int) (*ent.UserConnection, error) {
 	panic(fmt.Errorf("not implemented: Users - users"))
 }
 
