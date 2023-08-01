@@ -3,9 +3,9 @@ module github.com/ryokosuge/nextjs-golang-graphql-monorepo/api
 go 1.20
 
 require (
-	github.com/99designs/gqlgen v0.17.34
+	github.com/99designs/gqlgen v0.17.36
 	github.com/cespare/reflex v0.3.1
-	github.com/vektah/gqlparser/v2 v2.5.6
+	github.com/vektah/gqlparser/v2 v2.5.8
 )
 
 require (
