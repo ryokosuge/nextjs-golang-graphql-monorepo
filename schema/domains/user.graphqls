@@ -1,9 +1,7 @@
-type User implements Node {
-  id: ID!
-  name: String!
-  email: String!
-}
-
 extend type Query {
   me: User!
+}
+
+extend type Mutation {
+  upsertUser(input: CreateUserInput!): User!
 }

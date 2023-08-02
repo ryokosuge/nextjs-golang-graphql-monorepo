@@ -10,14 +10,20 @@ import {
 } from "react";
 import {
   getAuth,
-  User,
+  User as FirebaseUser,
   GoogleAuthProvider,
   signInWithPopup,
   inMemoryPersistence,
 } from "firebase/auth";
 import { app } from "@/firebase/client";
 import { deleteSession, revokeSession, storeSession } from "@/actions/session";
-import { redirect } from "next/navigation";
+import { User as AppUser } from "@/graphql/type";
+import { createUser } from "@/actions/graphql/user";
+
+type User = {
+  firebase: FirebaseUser;
+  app: AppUser;
+};
 
 const AuthContext = createContext<{
   user: User | null;
@@ -36,10 +42,15 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
         return;
       }
 
-      (async function (user: User) {
+      (async function (user: FirebaseUser) {
         const idToken = await user.getIdToken();
         await storeSession(idToken);
-        setUser(user);
+        const appUser = await createUser({
+          name: user.displayName ?? "",
+          email: user.email ?? "",
+          firebaseuuid: user.uid,
+        });
+        setUser({ firebase: user, app: appUser });
       })(user);
     });
     return unsubscribe;
@@ -50,7 +61,12 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const result = await signInWithPopup(auth, new GoogleAuthProvider());
     const idToken = await result.user.getIdToken();
     await storeSession(idToken);
-    setUser(result.user);
+    const appUser = await createUser({
+      name: result.user.displayName ?? "",
+      email: result.user.email ?? "",
+      firebaseuuid: result.user.uid,
+    });
+    setUser({ firebase: result.user, app: appUser });
   }, [auth]);
 
   const logout = useCallback(async () => {

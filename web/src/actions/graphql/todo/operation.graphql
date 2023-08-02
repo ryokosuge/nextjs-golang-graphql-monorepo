@@ -1,5 +1,15 @@
-query FetchTodo {
+query FetchTodos {
   todos {
-    id
+    edges {
+      node {
+        id
+        text
+        done
+        user {
+          id
+          name
+        }
+      }
+    }
   }
 }
