@@ -16,8 +16,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/ent"
-	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen/resolver"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/middleware"
+	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/resolver"
 )
 
 const defaultPort = "8080"
@@ -58,6 +58,7 @@ func main() {
 		return
 	}
 
+	client = client.Debug()
 	srv := handler.NewDefaultServer(resolver.NewSchema(client))
 	srv.Use(entgql.Transactioner{TxOpener: client})
 
@@ -65,7 +66,7 @@ func main() {
 	http.Handle("/query", firebaseAuth.CheckAuthorization(srv))
 	http.Handle("/ok", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusNoContent) }))
 
-	hsrv := &http.Server{
+	server := &http.Server{
 		Addr: fmt.Sprintf(":%s", port),
 	}
 
@@ -74,13 +75,13 @@ func main() {
 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 		defer cancel()
-		if err := hsrv.Shutdown(ctx); err != nil {
+		if err := server.Shutdown(ctx); err != nil {
 			log.Fatalln(err)
 		}
 	}()
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	if err := hsrv.ListenAndServe(); err != nil {
+	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("server encountered some error", err)
 	}
 }

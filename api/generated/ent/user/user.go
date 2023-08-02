@@ -12,6 +12,8 @@ const (
 	Label = "user"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldFirebaseUUID holds the string denoting the firebaseuuid field in the database.
+	FieldFirebaseUUID = "firebase_uuid"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
 	// FieldEmail holds the string denoting the email field in the database.
@@ -32,6 +34,7 @@ const (
 // Columns holds all SQL columns for user fields.
 var Columns = []string{
 	FieldID,
+	FieldFirebaseUUID,
 	FieldName,
 	FieldEmail,
 }
@@ -47,6 +50,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// FirebaseUUIDValidator is a validator for the "firebaseUUID" field. It is called by the builders before save.
+	FirebaseUUIDValidator func(string) error
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
 	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
@@ -59,6 +64,11 @@ type OrderOption func(*sql.Selector)
 // ByID orders the results by the id field.
 func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
+}
+
+// ByFirebaseUUID orders the results by the firebaseUUID field.
+func ByFirebaseUUID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFirebaseUUID, opts...).ToFunc()
 }
 
 // ByName orders the results by the name field.

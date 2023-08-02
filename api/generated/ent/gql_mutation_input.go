@@ -58,13 +58,15 @@ func (c *TodoUpdateOne) SetInput(i UpdateTodoInput) *TodoUpdateOne {
 
 // CreateUserInput represents a mutation input for creating users.
 type CreateUserInput struct {
-	Name    string
-	Email   string
-	TodoIDs []int
+	FirebaseUUID string
+	Name         string
+	Email        string
+	TodoIDs      []int
 }
 
 // Mutate applies the CreateUserInput on the UserMutation builder.
 func (i *CreateUserInput) Mutate(m *UserMutation) {
+	m.SetFirebaseUUID(i.FirebaseUUID)
 	m.SetName(i.Name)
 	m.SetEmail(i.Email)
 	if v := i.TodoIDs; len(v) > 0 {
@@ -80,6 +82,7 @@ func (c *UserCreate) SetInput(i CreateUserInput) *UserCreate {
 
 // UpdateUserInput represents a mutation input for updating users.
 type UpdateUserInput struct {
+	FirebaseUUID  *string
 	Name          *string
 	Email         *string
 	ClearTodos    bool
@@ -89,6 +92,9 @@ type UpdateUserInput struct {
 
 // Mutate applies the UpdateUserInput on the UserMutation builder.
 func (i *UpdateUserInput) Mutate(m *UserMutation) {
+	if v := i.FirebaseUUID; v != nil {
+		m.SetFirebaseUUID(*v)
+	}
 	if v := i.Name; v != nil {
 		m.SetName(*v)
 	}

@@ -28,6 +28,12 @@ func (uu *UserUpdate) Where(ps ...predicate.User) *UserUpdate {
 	return uu
 }
 
+// SetFirebaseUUID sets the "firebaseUUID" field.
+func (uu *UserUpdate) SetFirebaseUUID(s string) *UserUpdate {
+	uu.mutation.SetFirebaseUUID(s)
+	return uu
+}
+
 // SetName sets the "name" field.
 func (uu *UserUpdate) SetName(s string) *UserUpdate {
 	uu.mutation.SetName(s)
@@ -110,6 +116,11 @@ func (uu *UserUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (uu *UserUpdate) check() error {
+	if v, ok := uu.mutation.FirebaseUUID(); ok {
+		if err := user.FirebaseUUIDValidator(v); err != nil {
+			return &ValidationError{Name: "firebaseUUID", err: fmt.Errorf(`ent: validator failed for field "User.firebaseUUID": %w`, err)}
+		}
+	}
 	if v, ok := uu.mutation.Name(); ok {
 		if err := user.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "User.name": %w`, err)}
@@ -134,6 +145,9 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := uu.mutation.FirebaseUUID(); ok {
+		_spec.SetField(user.FieldFirebaseUUID, field.TypeString, value)
 	}
 	if value, ok := uu.mutation.Name(); ok {
 		_spec.SetField(user.FieldName, field.TypeString, value)
@@ -204,6 +218,12 @@ type UserUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *UserMutation
+}
+
+// SetFirebaseUUID sets the "firebaseUUID" field.
+func (uuo *UserUpdateOne) SetFirebaseUUID(s string) *UserUpdateOne {
+	uuo.mutation.SetFirebaseUUID(s)
+	return uuo
 }
 
 // SetName sets the "name" field.
@@ -301,6 +321,11 @@ func (uuo *UserUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (uuo *UserUpdateOne) check() error {
+	if v, ok := uuo.mutation.FirebaseUUID(); ok {
+		if err := user.FirebaseUUIDValidator(v); err != nil {
+			return &ValidationError{Name: "firebaseUUID", err: fmt.Errorf(`ent: validator failed for field "User.firebaseUUID": %w`, err)}
+		}
+	}
 	if v, ok := uuo.mutation.Name(); ok {
 		if err := user.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "User.name": %w`, err)}
@@ -342,6 +367,9 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := uuo.mutation.FirebaseUUID(); ok {
+		_spec.SetField(user.FieldFirebaseUUID, field.TypeString, value)
 	}
 	if value, ok := uuo.mutation.Name(); ok {
 		_spec.SetField(user.FieldName, field.TypeString, value)

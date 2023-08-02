@@ -1,0 +1,17 @@
+query GetMe {
+  me {
+    id
+    name
+    email
+    firebaseuuid
+  }
+}
+
+mutation UpsertUser($input: CreateUserInput!) {
+  upsertUser(input: $input) {
+    id
+    name
+    email
+    firebaseuuid
+  }
+}

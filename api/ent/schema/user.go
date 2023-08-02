@@ -27,6 +27,7 @@ func (User) Annotations() []schema.Annotation {
 // Fields of the User.
 func (User) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("firebaseUUID").NotEmpty().Unique().Comment("Firebase AuthenticationのUUID"),
 		field.String("name").NotEmpty().Unique().Comment("名前"),
 		field.String("email").NotEmpty().Unique().Comment("Eメール"),
 	}

@@ -53,6 +53,11 @@ func IDLTE(id int) predicate.User {
 	return predicate.User(sql.FieldLTE(FieldID, id))
 }
 
+// FirebaseUUID applies equality check predicate on the "firebaseUUID" field. It's identical to FirebaseUUIDEQ.
+func FirebaseUUID(v string) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldFirebaseUUID, v))
+}
+
 // Name applies equality check predicate on the "name" field. It's identical to NameEQ.
 func Name(v string) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldName, v))
@@ -61,6 +66,71 @@ func Name(v string) predicate.User {
 // Email applies equality check predicate on the "email" field. It's identical to EmailEQ.
 func Email(v string) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldEmail, v))
+}
+
+// FirebaseUUIDEQ applies the EQ predicate on the "firebaseUUID" field.
+func FirebaseUUIDEQ(v string) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDNEQ applies the NEQ predicate on the "firebaseUUID" field.
+func FirebaseUUIDNEQ(v string) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDIn applies the In predicate on the "firebaseUUID" field.
+func FirebaseUUIDIn(vs ...string) predicate.User {
+	return predicate.User(sql.FieldIn(FieldFirebaseUUID, vs...))
+}
+
+// FirebaseUUIDNotIn applies the NotIn predicate on the "firebaseUUID" field.
+func FirebaseUUIDNotIn(vs ...string) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldFirebaseUUID, vs...))
+}
+
+// FirebaseUUIDGT applies the GT predicate on the "firebaseUUID" field.
+func FirebaseUUIDGT(v string) predicate.User {
+	return predicate.User(sql.FieldGT(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDGTE applies the GTE predicate on the "firebaseUUID" field.
+func FirebaseUUIDGTE(v string) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDLT applies the LT predicate on the "firebaseUUID" field.
+func FirebaseUUIDLT(v string) predicate.User {
+	return predicate.User(sql.FieldLT(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDLTE applies the LTE predicate on the "firebaseUUID" field.
+func FirebaseUUIDLTE(v string) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDContains applies the Contains predicate on the "firebaseUUID" field.
+func FirebaseUUIDContains(v string) predicate.User {
+	return predicate.User(sql.FieldContains(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDHasPrefix applies the HasPrefix predicate on the "firebaseUUID" field.
+func FirebaseUUIDHasPrefix(v string) predicate.User {
+	return predicate.User(sql.FieldHasPrefix(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDHasSuffix applies the HasSuffix predicate on the "firebaseUUID" field.
+func FirebaseUUIDHasSuffix(v string) predicate.User {
+	return predicate.User(sql.FieldHasSuffix(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDEqualFold applies the EqualFold predicate on the "firebaseUUID" field.
+func FirebaseUUIDEqualFold(v string) predicate.User {
+	return predicate.User(sql.FieldEqualFold(FieldFirebaseUUID, v))
+}
+
+// FirebaseUUIDContainsFold applies the ContainsFold predicate on the "firebaseUUID" field.
+func FirebaseUUIDContainsFold(v string) predicate.User {
+	return predicate.User(sql.FieldContainsFold(FieldFirebaseUUID, v))
 }
 
 // NameEQ applies the EQ predicate on the "name" field.

@@ -7,7 +7,28 @@ export type GetMeQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type GetMeQuery = {
   __typename?: "Query";
-  me: { __typename?: "User"; id: string; name: string; email: string };
+  me: {
+    __typename?: "User";
+    id: string;
+    name: string;
+    email: string;
+    firebaseuuid: string;
+  };
+};
+
+export type UpsertUserMutationVariables = Types.Exact<{
+  input: Types.CreateUserInput;
+}>;
+
+export type UpsertUserMutation = {
+  __typename?: "Mutation";
+  upsertUser: {
+    __typename?: "User";
+    id: string;
+    name: string;
+    email: string;
+    firebaseuuid: string;
+  };
 };
 
 export const GetMeDocument = gql`
@@ -16,6 +37,17 @@ export const GetMeDocument = gql`
       id
       name
       email
+      firebaseuuid
+    }
+  }
+`;
+export const UpsertUserDocument = gql`
+  mutation UpsertUser($input: CreateUserInput!) {
+    upsertUser(input: $input) {
+      id
+      name
+      email
+      firebaseuuid
     }
   }
 `;
@@ -49,6 +81,20 @@ export function getSdk(
           }),
         "GetMe",
         "query",
+      );
+    },
+    UpsertUser(
+      variables: UpsertUserMutationVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<UpsertUserMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpsertUserMutation>(UpsertUserDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        "UpsertUser",
+        "mutation",
       );
     },
   };

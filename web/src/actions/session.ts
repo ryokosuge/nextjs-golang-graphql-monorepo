@@ -45,7 +45,6 @@ export async function storeSession(idToken: string) {
     // expired id token
     throw new Error("expired id token.");
   }
-
   const sessionCookie = await adminSDK
     .auth()
     .createSessionCookie(idToken, { expiresIn: EXPIRED_IN });

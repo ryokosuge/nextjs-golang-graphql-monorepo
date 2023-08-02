@@ -24,12 +24,16 @@ func init() {
 	todo.DefaultDone = todoDescDone.Default.(bool)
 	userFields := schema.User{}.Fields()
 	_ = userFields
+	// userDescFirebaseUUID is the schema descriptor for firebaseUUID field.
+	userDescFirebaseUUID := userFields[0].Descriptor()
+	// user.FirebaseUUIDValidator is a validator for the "firebaseUUID" field. It is called by the builders before save.
+	user.FirebaseUUIDValidator = userDescFirebaseUUID.Validators[0].(func(string) error)
 	// userDescName is the schema descriptor for name field.
-	userDescName := userFields[0].Descriptor()
+	userDescName := userFields[1].Descriptor()
 	// user.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	user.NameValidator = userDescName.Validators[0].(func(string) error)
 	// userDescEmail is the schema descriptor for email field.
-	userDescEmail := userFields[1].Descriptor()
+	userDescEmail := userFields[2].Descriptor()
 	// user.EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	user.EmailValidator = userDescEmail.Validators[0].(func(string) error)
 }

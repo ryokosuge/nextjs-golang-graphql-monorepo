@@ -52,6 +52,7 @@ services:
     entrypoint: ["/docker-entrypoint.sh"]
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/credential.json
+      - API_URL=http://api:8080/query
     ports:
       - 3000:3000
     depends_on:

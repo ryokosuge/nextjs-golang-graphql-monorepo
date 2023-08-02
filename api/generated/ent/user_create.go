@@ -22,6 +22,12 @@ type UserCreate struct {
 	conflict []sql.ConflictOption
 }
 
+// SetFirebaseUUID sets the "firebaseUUID" field.
+func (uc *UserCreate) SetFirebaseUUID(s string) *UserCreate {
+	uc.mutation.SetFirebaseUUID(s)
+	return uc
+}
+
 // SetName sets the "name" field.
 func (uc *UserCreate) SetName(s string) *UserCreate {
 	uc.mutation.SetName(s)
@@ -83,6 +89,14 @@ func (uc *UserCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (uc *UserCreate) check() error {
+	if _, ok := uc.mutation.FirebaseUUID(); !ok {
+		return &ValidationError{Name: "firebaseUUID", err: errors.New(`ent: missing required field "User.firebaseUUID"`)}
+	}
+	if v, ok := uc.mutation.FirebaseUUID(); ok {
+		if err := user.FirebaseUUIDValidator(v); err != nil {
+			return &ValidationError{Name: "firebaseUUID", err: fmt.Errorf(`ent: validator failed for field "User.firebaseUUID": %w`, err)}
+		}
+	}
 	if _, ok := uc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "User.name"`)}
 	}
@@ -126,6 +140,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec = sqlgraph.NewCreateSpec(user.Table, sqlgraph.NewFieldSpec(user.FieldID, field.TypeInt))
 	)
 	_spec.OnConflict = uc.conflict
+	if value, ok := uc.mutation.FirebaseUUID(); ok {
+		_spec.SetField(user.FieldFirebaseUUID, field.TypeString, value)
+		_node.FirebaseUUID = value
+	}
 	if value, ok := uc.mutation.Name(); ok {
 		_spec.SetField(user.FieldName, field.TypeString, value)
 		_node.Name = value
@@ -157,7 +175,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.User.Create().
-//		SetName(v).
+//		SetFirebaseUUID(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -166,7 +184,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserUpsert) {
-//			SetName(v+v).
+//			SetFirebaseUUID(v+v).
 //		}).
 //		Exec(ctx)
 func (uc *UserCreate) OnConflict(opts ...sql.ConflictOption) *UserUpsertOne {
@@ -201,6 +219,18 @@ type (
 		*sql.UpdateSet
 	}
 )
+
+// SetFirebaseUUID sets the "firebaseUUID" field.
+func (u *UserUpsert) SetFirebaseUUID(v string) *UserUpsert {
+	u.Set(user.FieldFirebaseUUID, v)
+	return u
+}
+
+// UpdateFirebaseUUID sets the "firebaseUUID" field to the value that was provided on create.
+func (u *UserUpsert) UpdateFirebaseUUID() *UserUpsert {
+	u.SetExcluded(user.FieldFirebaseUUID)
+	return u
+}
 
 // SetName sets the "name" field.
 func (u *UserUpsert) SetName(v string) *UserUpsert {
@@ -264,6 +294,20 @@ func (u *UserUpsertOne) Update(set func(*UserUpsert)) *UserUpsertOne {
 		set(&UserUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetFirebaseUUID sets the "firebaseUUID" field.
+func (u *UserUpsertOne) SetFirebaseUUID(v string) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetFirebaseUUID(v)
+	})
+}
+
+// UpdateFirebaseUUID sets the "firebaseUUID" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateFirebaseUUID() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateFirebaseUUID()
+	})
 }
 
 // SetName sets the "name" field.
@@ -424,7 +468,7 @@ func (ucb *UserCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserUpsert) {
-//			SetName(v+v).
+//			SetFirebaseUUID(v+v).
 //		}).
 //		Exec(ctx)
 func (ucb *UserCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserUpsertBulk {
@@ -491,6 +535,20 @@ func (u *UserUpsertBulk) Update(set func(*UserUpsert)) *UserUpsertBulk {
 		set(&UserUpsert{UpdateSet: update})
 	}))
 	return u
+}
+
+// SetFirebaseUUID sets the "firebaseUUID" field.
+func (u *UserUpsertBulk) SetFirebaseUUID(v string) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetFirebaseUUID(v)
+	})
+}
+
+// UpdateFirebaseUUID sets the "firebaseUUID" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateFirebaseUUID() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateFirebaseUUID()
+	})
 }
 
 // SetName sets the "name" field.

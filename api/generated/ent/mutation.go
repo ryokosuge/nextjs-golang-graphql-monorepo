@@ -481,6 +481,7 @@ type UserMutation struct {
 	op            Op
 	typ           string
 	id            *int
+	firebaseUUID  *string
 	name          *string
 	email         *string
 	clearedFields map[string]struct{}
@@ -588,6 +589,42 @@ func (m *UserMutation) IDs(ctx context.Context) ([]int, error) {
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
+}
+
+// SetFirebaseUUID sets the "firebaseUUID" field.
+func (m *UserMutation) SetFirebaseUUID(s string) {
+	m.firebaseUUID = &s
+}
+
+// FirebaseUUID returns the value of the "firebaseUUID" field in the mutation.
+func (m *UserMutation) FirebaseUUID() (r string, exists bool) {
+	v := m.firebaseUUID
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFirebaseUUID returns the old "firebaseUUID" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldFirebaseUUID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFirebaseUUID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFirebaseUUID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFirebaseUUID: %w", err)
+	}
+	return oldValue.FirebaseUUID, nil
+}
+
+// ResetFirebaseUUID resets all changes to the "firebaseUUID" field.
+func (m *UserMutation) ResetFirebaseUUID() {
+	m.firebaseUUID = nil
 }
 
 // SetName sets the "name" field.
@@ -750,7 +787,10 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 3)
+	if m.firebaseUUID != nil {
+		fields = append(fields, user.FieldFirebaseUUID)
+	}
 	if m.name != nil {
 		fields = append(fields, user.FieldName)
 	}
@@ -765,6 +805,8 @@ func (m *UserMutation) Fields() []string {
 // schema.
 func (m *UserMutation) Field(name string) (ent.Value, bool) {
 	switch name {
+	case user.FieldFirebaseUUID:
+		return m.FirebaseUUID()
 	case user.FieldName:
 		return m.Name()
 	case user.FieldEmail:
@@ -778,6 +820,8 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
+	case user.FieldFirebaseUUID:
+		return m.OldFirebaseUUID(ctx)
 	case user.FieldName:
 		return m.OldName(ctx)
 	case user.FieldEmail:
@@ -791,6 +835,13 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 // type.
 func (m *UserMutation) SetField(name string, value ent.Value) error {
 	switch name {
+	case user.FieldFirebaseUUID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFirebaseUUID(v)
+		return nil
 	case user.FieldName:
 		v, ok := value.(string)
 		if !ok {
@@ -854,6 +905,9 @@ func (m *UserMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *UserMutation) ResetField(name string) error {
 	switch name {
+	case user.FieldFirebaseUUID:
+		m.ResetFirebaseUUID()
+		return nil
 	case user.FieldName:
 		m.ResetName()
 		return nil

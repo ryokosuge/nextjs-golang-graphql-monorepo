@@ -123,6 +123,11 @@ func (u *UserQuery) collectField(ctx context.Context, opCtx *graphql.OperationCo
 			u.WithNamedTodos(alias, func(wq *TodoQuery) {
 				*wq = *query
 			})
+		case "firebaseuuid":
+			if _, ok := fieldSeen[user.FieldFirebaseUUID]; !ok {
+				selectedFields = append(selectedFields, user.FieldFirebaseUUID)
+				fieldSeen[user.FieldFirebaseUUID] = struct{}{}
+			}
 		case "name":
 			if _, ok := fieldSeen[user.FieldName]; !ok {
 				selectedFields = append(selectedFields, user.FieldName)
