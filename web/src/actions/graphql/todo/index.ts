@@ -1,16 +1,10 @@
 "use server";
 
+import { graphQLClient } from "@/actions/graphql-request-client";
 import { getSdk } from "./operation.generated";
-import { getCookieSession } from "@/actions/session";
-import { graphQLClient } from "@/graphql/client";
 
 export const fetchToDos = async () => {
-  const session = await getCookieSession();
-  if (session == null) {
-    throw new Error("not authorization.");
-  }
-
-  graphQLClient.setHeader("Authorization", `Bearer ${session}`);
-  const sdk = getSdk(graphQLClient);
-  return await sdk.FetchTodo();
+  const client = await graphQLClient();
+  const sdk = getSdk(client);
+  return await sdk.FetchTodos();
 };

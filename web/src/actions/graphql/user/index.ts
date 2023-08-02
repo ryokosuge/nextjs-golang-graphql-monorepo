@@ -16,7 +16,8 @@ export async function createUser(input: CreateUserInput) {
     throw new Error("Not found session.");
   }
 
-  const sdk = getSdk(graphQLClient(session));
+  const client = await graphQLClient();
+  const sdk = getSdk(client);
   const result = await sdk.UpsertUser({
     input: {
       email: input.email ?? "",
@@ -32,7 +33,9 @@ export async function me() {
   if (session == null) {
     throw new Error("Not found session.");
   }
-  const sdk = getSdk(graphQLClient(session));
+
+  const client = await graphQLClient();
+  const sdk = getSdk(client);
   const result = await sdk.GetMe();
   return result.me;
 }
