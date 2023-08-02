@@ -23,13 +23,13 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []int) ([]ent.Noder, erro
 }
 
 // Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int) (*ent.TodoConnection, error) {
-	return r.client.Todo.Query().Paginate(ctx, after, first, before, last)
+func (r *queryResolver) Todos(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int, where *ent.TodoWhereInput) (*ent.TodoConnection, error) {
+	return r.client.Todo.Query().Paginate(ctx, after, first, before, last, ent.WithTodoFilter(where.Filter))
 }
 
 // Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int) (*ent.UserConnection, error) {
-	return r.client.User.Query().Paginate(ctx, after, first, before, last)
+func (r *queryResolver) Users(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int, where *ent.UserWhereInput) (*ent.UserConnection, error) {
+	return r.client.User.Query().Paginate(ctx, after, first, before, last, ent.WithUserFilter(where.Filter))
 }
 
 // Query returns generated.QueryResolver implementation.
