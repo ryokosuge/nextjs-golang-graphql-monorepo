@@ -17,7 +17,7 @@ services:
       timeout: 30s
       retries: 10
   api:
-    image: golang:1.20
+    image: golang:1.21
     working_dir: /go/src/github.com/ryokosuge/api
     command: ["make", "dev"]
     volumes:
