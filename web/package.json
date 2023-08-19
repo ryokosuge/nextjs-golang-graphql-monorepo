@@ -30,14 +30,14 @@
     "@graphql-codegen/typescript": "4.0.1",
     "@graphql-codegen/typescript-graphql-request": "5.0.0",
     "@graphql-codegen/typescript-operations": "4.0.1",
-    "@types/node": "20.4.8",
-    "@types/react": "18.2.19",
+    "@types/node": "20.5.1",
+    "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "encoding": "0.1.13",
-    "eslint": "8.46.0",
-    "eslint-config-next": "13.4.13",
+    "eslint": "8.47.0",
+    "eslint-config-next": "13.4.19",
     "eslint-config-prettier": "9.0.0",
-    "prettier": "3.0.1",
+    "prettier": "3.0.2",
     "typescript": "5.1.6"
   }
 }
