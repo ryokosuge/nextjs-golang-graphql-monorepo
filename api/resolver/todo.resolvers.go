@@ -25,33 +25,3 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, id int, input ent.Upd
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
 type mutationResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *queryResolver) AllTodo(ctx context.Context, where *ent.TodoWhereInput, userWhere *ent.UserWhereInput) ([]*ent.Todo, error) {
-	q := r.client.Todo.Query().WithUser()
-
-	if userWhere != nil {
-		// userのfilterから始める
-		p, err := userWhere.P()
-		if err != nil {
-			return nil, err
-		}
-		uq := r.client.User.Query().Where(p)
-		q = uq.QueryTodos().WithUser()
-	}
-
-	if where != nil {
-		p, err := where.P()
-		if err != nil {
-			return nil, err
-		}
-		q = q.Where(p)
-	}
-
-	return q.All(ctx)
-}
