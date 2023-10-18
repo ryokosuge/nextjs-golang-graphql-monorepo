@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=18.16.0
+ARG NODE_VERSION=20.8
 
 ################################################################################
 # base

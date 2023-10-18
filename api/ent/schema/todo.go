@@ -17,18 +17,15 @@ func (Todo) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entgql.RelayConnection(),
 		entgql.QueryField(),
-		entgql.Mutations(
-			entgql.MutationCreate(),
-			entgql.MutationUpdate(),
-		),
+		entgql.Mutations(),
 	}
 }
 
 // Fields of the ToDo.
 func (Todo) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("text").NotEmpty().Comment("テキスト"),
-		field.Bool("done").Default(false).Comment("完了かどうか"),
+		field.String("text").NotEmpty(),
+		field.Bool("done").Default(false),
 	}
 }
 
