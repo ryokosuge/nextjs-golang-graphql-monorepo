@@ -342,12 +342,16 @@ func (u *TodoUpsertOne) IDX(ctx context.Context) int {
 // TodoCreateBulk is the builder for creating many Todo entities in bulk.
 type TodoCreateBulk struct {
 	config
+	err      error
 	builders []*TodoCreate
 	conflict []sql.ConflictOption
 }
 
 // Save creates the Todo entities in the database.
 func (tcb *TodoCreateBulk) Save(ctx context.Context) ([]*Todo, error) {
+	if tcb.err != nil {
+		return nil, tcb.err
+	}
 	specs := make([]*sqlgraph.CreateSpec, len(tcb.builders))
 	nodes := make([]*Todo, len(tcb.builders))
 	mutators := make([]Mutator, len(tcb.builders))
@@ -536,6 +540,9 @@ func (u *TodoUpsertBulk) UpdateDone() *TodoUpsertBulk {
 
 // Exec executes the query.
 func (u *TodoUpsertBulk) Exec(ctx context.Context) error {
+	if u.create.err != nil {
+		return u.create.err
+	}
 	for i, b := range u.create.builders {
 		if len(b.conflict) != 0 {
 			return fmt.Errorf("ent: OnConflict was set for builder %d. Set it on the TodoCreateBulk instead", i)
