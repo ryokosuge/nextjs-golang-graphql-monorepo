@@ -514,7 +514,7 @@ extend type Mutation {
   upsertUser(input: CreateUserInput!): User!
 }
 `, BuiltIn: false},
-	{Name: "../../../schema/ent.graphqls", Input: `directive @goField(forceResolver: Boolean, name: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+	{Name: "../../../schema/schema.graphqls", Input: `directive @goField(forceResolver: Boolean, name: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 directive @goModel(model: String, models: [String!]) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
 """
 CreateTodoInput is used for create Todo object.
