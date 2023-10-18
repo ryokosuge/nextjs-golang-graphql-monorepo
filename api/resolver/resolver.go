@@ -1,9 +1,7 @@
 package resolver
 
 import (
-	"github.com/99designs/gqlgen/graphql"
 	"github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/ent"
-	generated "github.com/ryokosuge/nextjs-golang-graphql-monorepo/api/generated/gqlgen"
 )
 
 // This file will not be regenerated automatically.
@@ -13,9 +11,8 @@ import (
 // Resolver is the resolver root.
 type Resolver struct{ client *ent.Client }
 
-// NewSchema creates a graphql executable schema.
-func NewSchema(client *ent.Client) graphql.ExecutableSchema {
-	return generated.NewExecutableSchema(generated.Config{
-		Resolvers: &Resolver{client},
-	})
+func New(client *ent.Client) *Resolver {
+	return &Resolver{
+		client: client,
+	}
 }

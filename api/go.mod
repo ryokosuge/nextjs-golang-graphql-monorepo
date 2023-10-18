@@ -1,11 +1,12 @@
 module github.com/ryokosuge/nextjs-golang-graphql-monorepo/api
 
-go 1.20
+go 1.21
 
 require (
 	entgo.io/ent v0.12.4
 	github.com/99designs/gqlgen v0.17.39
 	github.com/cespare/reflex v0.3.1
+	github.com/go-chi/chi/v5 v5.0.10
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/vektah/gqlparser/v2 v2.5.10
@@ -69,6 +70,7 @@ require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/creack/pty v1.1.18 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/go-chi/cors v1.2.1
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/ogier/pflag v0.0.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
