@@ -3,17 +3,17 @@ module github.com/ryokosuge/nextjs-golang-graphql-monorepo/api
 go 1.20
 
 require (
-	entgo.io/ent v0.12.3
-	github.com/99designs/gqlgen v0.17.36
+	entgo.io/ent v0.12.4
+	github.com/99designs/gqlgen v0.17.39
 	github.com/cespare/reflex v0.3.1
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/vektah/gqlparser/v2 v2.5.8
-	golang.org/x/sync v0.3.0
+	github.com/vektah/gqlparser/v2 v2.5.10
+	golang.org/x/sync v0.4.0
 )
 
 require (
-	ariga.io/atlas v0.10.2-0.20230427182402-87a07dfb83bf // indirect
+	ariga.io/atlas v0.14.1-0.20230918065911-83ad451a4935 // indirect
 	cloud.google.com/go v0.110.2 // indirect
 	cloud.google.com/go/compute v1.19.3 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
@@ -40,6 +40,7 @@ require (
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
+	github.com/sosodev/duration v1.1.0 // indirect
 	github.com/spf13/cobra v1.7.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.0.0-beta.9 // indirect
