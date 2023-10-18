@@ -17,9 +17,9 @@ type Todo struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// テキスト
+	// Text holds the value of the "text" field.
 	Text string `json:"text,omitempty"`
-	// 完了かどうか
+	// Done holds the value of the "done" field.
 	Done bool `json:"done,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the TodoQuery when eager-loading is set.
