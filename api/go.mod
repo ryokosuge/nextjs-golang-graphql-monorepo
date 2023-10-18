@@ -1,11 +1,12 @@
 module github.com/ryokosuge/nextjs-golang-graphql-monorepo/api
 
-go 1.20
+go 1.21
 
 require (
 	entgo.io/ent v0.12.4
 	github.com/99designs/gqlgen v0.17.39
 	github.com/cespare/reflex v0.3.1
+	github.com/go-chi/chi/v5 v5.0.10
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/vektah/gqlparser/v2 v2.5.10
@@ -23,7 +24,6 @@ require (
 	cloud.google.com/go/storage v1.31.0 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
-	github.com/go-chi/chi/v5 v5.0.10 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
