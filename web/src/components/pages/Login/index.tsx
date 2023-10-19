@@ -3,7 +3,7 @@
 import { FC, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth";
-import { Button, Flex, Heading } from "@chakra-ui/react";
+import { Button } from "@nextui-org/button";
 
 export type Props = {};
 
@@ -23,19 +23,10 @@ const Page: FC<Props> = () => {
   }, [login, router]);
 
   return (
-    <Flex
-      flexDirection="column"
-      p={12}
-      borderRadius={8}
-      boxShadow="lg"
-      backgroundColor="whiteAlpha.800"
-      gap={6}
-    >
-      <Heading>Log In</Heading>
-      <Button colorScheme="pink" onClick={handleButtonClick}>
-        Google Login
-      </Button>
-    </Flex>
+    <div className="flex flex-col p-unit-12 rounded-8 shadow-lg bg-white gap-6">
+      <h1>Log In</h1>
+      <Button onClick={handleButtonClick}>Google Login</Button>
+    </div>
   );
 };
 

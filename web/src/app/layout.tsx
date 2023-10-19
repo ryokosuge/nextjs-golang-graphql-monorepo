@@ -1,3 +1,4 @@
+import "@/styles/globals.css";
 import AppContainer from "@/containers/AppContainer";
 
 export const metadata = {
@@ -11,7 +12,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body>
         <AppContainer>{children}</AppContainer>
       </body>

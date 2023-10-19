@@ -1,16 +1,7 @@
-"use client";
-import { Box } from "@chakra-ui/react";
-
 type Props = {
   children: React.ReactNode;
 };
 
-const Layout = ({ children }: Props) => {
-  return (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg">
-      {children}
-    </Box>
-  );
-};
-
-export default Layout;
+export default function Layout({ children }: Props) {
+  return <div className="max-w-full border rounded-lg">{children}</div>;
+}

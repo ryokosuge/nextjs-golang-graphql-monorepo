@@ -1,7 +1,5 @@
 import { LoadingView } from "@/components/molecules/LoadingView";
 
-const Loading = () => {
+export default function Loading() {
   return <LoadingView />;
-};
-
-export default Loading;
+}
