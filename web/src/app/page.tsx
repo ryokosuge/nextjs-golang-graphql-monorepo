@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
-import { default as RootPage } from "@/components/pages/Root";
+import RootPage from "@/components/pages/Root";
 import { User } from "@/graphql/type";
 import { me } from "@/actions/graphql/user";
 
-const Page = async () => {
+export default async function Page() {
   let user: User;
   try {
     user = await me();
@@ -14,6 +14,4 @@ const Page = async () => {
   }
 
   return <RootPage id={user.id} username={user.name} email={user.email} />;
-};
-
-export default Page;
+}

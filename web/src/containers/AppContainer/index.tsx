@@ -1,26 +1,17 @@
-"use client";
-
 import { PropsWithChildren } from "react";
-import { ChakraUIProviders } from "@/containers/chakra-ui";
 import { AuthProvider } from "@/context/auth";
-import { Flex } from "@chakra-ui/react";
+import { NextUIProvider } from "../NextUI";
 
 export type Props = {};
 const AppContainer: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   return (
-    <ChakraUIProviders>
+    <NextUIProvider>
       <AuthProvider>
-        <Flex
-          w="100wh"
-          h="100vh"
-          alignItems="center"
-          justifyContent="center"
-          backgroundColor="gray.200"
-        >
+        <div className="flex w-screen h-screen items-center justify-center bg-gray-200">
           {children}
-        </Flex>
+        </div>
       </AuthProvider>
-    </ChakraUIProviders>
+    </NextUIProvider>
   );
 };
 

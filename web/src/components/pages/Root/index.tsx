@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/context/auth";
@@ -11,7 +11,7 @@ export type Props = {
   email: string;
 };
 
-const Page: FC<Props> = ({ id, username, email }) => {
+export default function Page({ id, username, email }: Props) {
   const { logout } = useAuth();
   const router = useRouter();
   const handleButtonClick = useCallback(async () => {
@@ -32,6 +32,4 @@ const Page: FC<Props> = ({ id, username, email }) => {
       <button onClick={handleButtonClick}>ログアウトする</button>
     </main>
   );
-};
-
-export default Page;
+}
