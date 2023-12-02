@@ -42,7 +42,7 @@ services:
       db:
         condition: service_healthy
   web:
-    image: node:20.8-alpine
+    image: node:21.3-alpine
     working_dir: /app
     volumes:
       - ./web:/app
