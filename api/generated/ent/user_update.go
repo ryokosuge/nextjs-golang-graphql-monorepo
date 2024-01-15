@@ -34,15 +34,39 @@ func (uu *UserUpdate) SetFirebaseUUID(s string) *UserUpdate {
 	return uu
 }
 
+// SetNillableFirebaseUUID sets the "firebaseUUID" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableFirebaseUUID(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetFirebaseUUID(*s)
+	}
+	return uu
+}
+
 // SetName sets the "name" field.
 func (uu *UserUpdate) SetName(s string) *UserUpdate {
 	uu.mutation.SetName(s)
 	return uu
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableName(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetName(*s)
+	}
+	return uu
+}
+
 // SetEmail sets the "email" field.
 func (uu *UserUpdate) SetEmail(s string) *UserUpdate {
 	uu.mutation.SetEmail(s)
+	return uu
+}
+
+// SetNillableEmail sets the "email" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableEmail(s *string) *UserUpdate {
+	if s != nil {
+		uu.SetEmail(*s)
+	}
 	return uu
 }
 
@@ -226,15 +250,39 @@ func (uuo *UserUpdateOne) SetFirebaseUUID(s string) *UserUpdateOne {
 	return uuo
 }
 
+// SetNillableFirebaseUUID sets the "firebaseUUID" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableFirebaseUUID(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetFirebaseUUID(*s)
+	}
+	return uuo
+}
+
 // SetName sets the "name" field.
 func (uuo *UserUpdateOne) SetName(s string) *UserUpdateOne {
 	uuo.mutation.SetName(s)
 	return uuo
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableName(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetName(*s)
+	}
+	return uuo
+}
+
 // SetEmail sets the "email" field.
 func (uuo *UserUpdateOne) SetEmail(s string) *UserUpdateOne {
 	uuo.mutation.SetEmail(s)
+	return uuo
+}
+
+// SetNillableEmail sets the "email" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableEmail(s *string) *UserUpdateOne {
+	if s != nil {
+		uuo.SetEmail(*s)
+	}
 	return uuo
 }
 
