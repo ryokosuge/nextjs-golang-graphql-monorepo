@@ -1,3 +1,4 @@
+GOLANGCI_LINT_VERSION := latest
 
 dev:
 	go run github.com/cespare/reflex -r '\.go$$' -s go run server.go
