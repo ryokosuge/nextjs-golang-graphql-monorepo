@@ -17,7 +17,7 @@ services:
       timeout: 60s
       retries: 10
   api:
-    image: golang:1.21
+    image: golang:1.23
     working_dir: /go/src/github.com/ryokosuge/api
     command: ["make", "dev"]
     volumes:
@@ -42,7 +42,7 @@ services:
       db:
         condition: service_healthy
   web:
-    image: node:20.11-alpine
+    image: node:20.18-alpine
     working_dir: /app/web
     volumes:
       - ./web:/app/web
